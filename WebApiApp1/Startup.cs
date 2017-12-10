@@ -2,11 +2,13 @@
 using System.Web.Http;
 using System.Web.Http.ExceptionHandling;
 using FibbonacciCalculations;
+using Logger;
 using Owin;
 using Transport.Interfaces;
 using Transport.RabbitMQ;
 using Unity;
 using Unity.AspNet.WebApi;
+using Unity.Injection;
 using Unity.Lifetime;
 
 namespace WebApiApp1
@@ -24,17 +26,26 @@ namespace WebApiApp1
                 defaults: new { id = RouteParameter.Optional }
             );
 
-            config.Services.Add(typeof(IExceptionLogger), new ConsoleExceptionLogger());
+            config.Services.Add(typeof(IExceptionLogger), new ExceptionLogger());
 
+            RegisterDependencies(config);
+            appBuilder.UseWebApi(config);
+        }
+
+        private static void RegisterDependencies(HttpConfiguration config)
+        {
+            
             Container = new UnityContainer();
             var connectionString = ConfigurationManager.AppSettings["RabbitMqConnectionString"];
 
-            Container.RegisterInstance<IDataSender>(new RabbitMqProvider(connectionString));
+            Container.RegisterType<ILogger, NLogProvider>(new SingletonLifetimeManager());
+
+            Container.RegisterType<IDataSender, RabbitMqProvider>(new SingletonLifetimeManager(),
+                new InjectionConstructor(connectionString, new ResolvedParameter<ILogger>()));
+
             Container.RegisterType<FibonacciService>(new SingletonLifetimeManager());
 
             config.DependencyResolver = new UnityDependencyResolver(Container);
-
-            appBuilder.UseWebApi(config);
         }
     }
 }

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using EasyNetQ;
 using Transport.Interfaces;
@@ -7,11 +9,15 @@ namespace Transport.RabbitMQ
 {
     public class RabbitMqProvider : IDisposable, IDataSender
     {
+        private readonly ILogger _logger;
         private readonly IBus _bus;
+        private readonly IList<ISubscriptionResult> _subcriptions;
 
-        public RabbitMqProvider(string connectionString)
+        public RabbitMqProvider(string connectionString, ILogger logger)
         {
+            _logger = logger;
             _bus = RabbitHutch.CreateBus(connectionString);
+            _subcriptions = new List<ISubscriptionResult>();
         }
 
         public void Subscribe<T>(string subscriptionId, Action<T> action)
@@ -21,17 +27,26 @@ namespace Transport.RabbitMQ
             // http://www.mariuszwojcik.com/blog/How-to-process-messages-in-parallel-using-EasyNetQ
             var factory = new TaskFactory();
 
-            _bus.SubscribeAsync<T>(subscriptionId, message =>
+            var subscription = _bus.SubscribeAsync<T>(subscriptionId, message =>
                 factory.StartNew(() => action(message)), config => config.WithAutoDelete());
+            
+            _subcriptions.Add(subscription);
+
+            _logger.Info($"Created '{subscriptionId}' subscription");
         }
 
-        public async Task SendResult<T>(T message) where T : class
+        public Task SendResult<T>(T message) where T : class
         {
-            await _bus.PublishAsync(message);
+            return _bus.PublishAsync(message);
         }
 
         public void Dispose()
         {
+            foreach (var subcription in _subcriptions)
+            {
+                subcription.Dispose();
+            }
+
             _bus.Dispose();
         }
     }

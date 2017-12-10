@@ -50,6 +50,10 @@
       <Project>{BAD22438-A4C4-47E1-BC46-F3ECDEFAEA84}</Project>
       <Name>FibbonacciCalculations</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Logger\Logger.csproj">
+      <Project>{94B0E037-83A0-4D5A-A6E9-702333DDFC09}</Project>
+      <Name>Logger</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Transport.Interfaces\Transport.Interfaces.csproj">
       <Project>{03FAB494-AFC3-4033-A841-F98EEB028D63}</Project>
       <Name>Transport.Interfaces</Name>

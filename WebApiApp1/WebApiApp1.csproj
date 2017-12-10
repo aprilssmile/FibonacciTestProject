@@ -65,6 +65,10 @@
       <HintPath>..\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.4.4.12\lib\net45\NLog.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
       <Private>True</Private>
@@ -135,7 +139,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConsoleExceptionLogger.cs" />
+    <Compile Include="ExceptionLogger.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -149,6 +153,10 @@
     <ProjectReference Include="..\FibbonacciCalculations\FibbonacciCalculations.csproj">
       <Project>{BAD22438-A4C4-47E1-BC46-F3ECDEFAEA84}</Project>
       <Name>FibbonacciCalculations</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Logger\Logger.csproj">
+      <Project>{94B0E037-83A0-4D5A-A6E9-702333DDFC09}</Project>
+      <Name>Logger</Name>
     </ProjectReference>
     <ProjectReference Include="..\Transport.Interfaces\Transport.Interfaces.csproj">
       <Project>{03FAB494-AFC3-4033-A841-F98EEB028D63}</Project>

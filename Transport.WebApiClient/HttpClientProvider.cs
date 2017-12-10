@@ -10,10 +10,12 @@ namespace Transport.WebApiClient
 {
     public class HttpClientProvider : IDisposable, IDataSender
     {
+        private readonly ILogger _logger;
         private readonly HttpClient _httpClient;
 
-        public HttpClientProvider(string uriString)
+        public HttpClientProvider(string uriString, ILogger logger)
         {
+            _logger = logger;
             _httpClient = new HttpClient { BaseAddress = new Uri(uriString) };
         }
 
@@ -27,12 +29,12 @@ namespace Transport.WebApiClient
                 if (!result.IsSuccessStatusCode)
                 {
                     var resultContent = await result.Content.ReadAsStringAsync();
-                    Console.WriteLine(resultContent);
+                    _logger.Error(resultContent);
                 }
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                _logger.Error(e);
             }
         }
 

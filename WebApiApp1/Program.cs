@@ -26,7 +26,6 @@ namespace WebApiApp1
             var baseAddress = ConfigurationManager.AppSettings["WebApiEndpointAddress"];
             using (WebApp.Start<Startup>(baseAddress))
             {
-                Console.WriteLine("Starting calculations...");
                 var fibonacciService = Startup.Container.Resolve<FibonacciService>();
                 fibonacciService.InitCalculations(ayncCalculationsCount);
 

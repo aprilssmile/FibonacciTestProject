@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Transport.RabbitMQ", "Trans
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Transport.WebApiClient", "Transport.WebApiClient\Transport.WebApiClient.csproj", "{9EE24A02-EEEE-4DF9-A632-A2773251B525}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Logger", "Logger\Logger.csproj", "{94B0E037-83A0-4D5A-A6E9-702333DDFC09}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{9EE24A02-EEEE-4DF9-A632-A2773251B525}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9EE24A02-EEEE-4DF9-A632-A2773251B525}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9EE24A02-EEEE-4DF9-A632-A2773251B525}.Release|Any CPU.Build.0 = Release|Any CPU
+		{94B0E037-83A0-4D5A-A6E9-702333DDFC09}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{94B0E037-83A0-4D5A-A6E9-702333DDFC09}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{94B0E037-83A0-4D5A-A6E9-702333DDFC09}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{94B0E037-83A0-4D5A-A6E9-702333DDFC09}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
