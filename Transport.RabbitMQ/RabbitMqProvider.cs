@@ -23,16 +23,23 @@ namespace Transport.RabbitMQ
         public void Subscribe<T>(string subscriptionId, Action<T> action)
             where T : class
         {
-            // todo optimize with task sheduler. Info:
-            // http://www.mariuszwojcik.com/blog/How-to-process-messages-in-parallel-using-EasyNetQ
-            var factory = new TaskFactory();
+            try
+            {
+                // todo optimize with task sheduler. Info:
+                // http://www.mariuszwojcik.com/blog/How-to-process-messages-in-parallel-using-EasyNetQ
+                var factory = new TaskFactory();
 
-            var subscription = _bus.SubscribeAsync<T>(subscriptionId, message =>
-                factory.StartNew(() => action(message)), config => config.WithAutoDelete());
-            
-            _subcriptions.Add(subscription);
+                var subscription = _bus.SubscribeAsync<T>(subscriptionId, message =>
+                    factory.StartNew(() => action(message)), config => config.WithAutoDelete());
 
-            _logger.Info($"Created '{subscriptionId}' subscription");
+                _subcriptions.Add(subscription);
+
+                _logger.Info($"Created '{subscriptionId}' subscription");
+            }
+            catch(Exception ex)
+            {
+                _logger.Error(ex);
+            }
         }
 
         public Task SendResult<T>(T message) where T : class
